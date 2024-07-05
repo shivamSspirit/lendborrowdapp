@@ -1,0 +1,255 @@
+{
+  "address": "FqfKDfzgDaf4JsEaP5eDX9qEedUPdfdv8uCcQDv4LszL",
+  "metadata": {
+    "name": "borrow_lend",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "borrow_main",
+      "discriminator": [
+        188,
+        75,
+        240,
+        167,
+        15,
+        93,
+        41,
+        4
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  85,
+                  83,
+                  69,
+                  82
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "lend",
+          "type": {
+            "defined": {
+              "name": "BorrowedToken"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "init_user_main",
+      "discriminator": [
+        21,
+        240,
+        62,
+        193,
+        88,
+        240,
+        166,
+        161
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  85,
+                  83,
+                  69,
+                  82
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "lend_main",
+      "discriminator": [
+        146,
+        221,
+        18,
+        12,
+        64,
+        28,
+        144,
+        163
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  85,
+                  83,
+                  69,
+                  82
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "lend",
+          "type": {
+            "defined": {
+              "name": "LendedToken"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "UserAcc",
+      "discriminator": [
+        171,
+        109,
+        66,
+        173,
+        40,
+        74,
+        3,
+        138
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "BorrowHigherThanLend",
+      "msg": "Borrow amount Higher than Lend Amount"
+    }
+  ],
+  "types": [
+    {
+      "name": "BorrowedToken",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "token",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LendedToken",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "token",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserAcc",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "lended_tokens",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "LendedToken"
+                }
+              }
+            }
+          },
+          {
+            "name": "borrowed_tokens",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "BorrowedToken"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

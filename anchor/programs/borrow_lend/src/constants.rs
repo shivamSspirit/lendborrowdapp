@@ -1,0 +1,6 @@
+pub const USER_SEED: &[u8] = b"USER";
+pub const BORROW_PERCENTAGE: u64 = 50;
+pub const TOKENS: &[(&str, u64)] = &[
+    ("4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU", 100),
+    ("So11111111111111111111111111111111111111112", 150),
+];
