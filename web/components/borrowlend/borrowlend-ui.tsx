@@ -57,7 +57,7 @@ export function BorrowLendList() {
         <span className="loading loading-spinner loading-lg"></span>
       ) : accounts.data?.length ? (
         <div className="grid md:grid-cols-2 gap-4">
-          {currentAcc!&& <BorrowLendUserPortfolio
+          {currentAcc! && <BorrowLendUserPortfolio
             key={currentAcc?.publicKey.toString()}
             account={currentAcc?.publicKey}
             borrowed={currentAcc?.account.borrowedTokens}
@@ -81,7 +81,7 @@ export function BorrowLendTokenUI() {
   const { accounts } = useBorrowLendProgram();
 
   const currentAcc = accounts.data?.find(account => account.account.authority.toString() === publicKey!.toString())?.publicKey;
-  const { LendTokens, BorrowTokens } = useBorrowLendProgramAccount({ account:currentAcc! });
+  const { LendTokens, BorrowTokens } = useBorrowLendProgramAccount({ account: currentAcc! });
 
   const tokens = [
     { tokenName: "Solana", tokenSymbol: "SOL", tokenKey: new PublicKey("So11111111111111111111111111111111111111112") },
@@ -115,14 +115,14 @@ export function BorrowLendTokenUI() {
     }))
   };
 
-  const handleChangeLend = (tokenKey:string, value:string) => {
+  const handleChangeLend = (tokenKey: string, value: string) => {
     setTokenValues(prevState => ({
       ...prevState,
       [tokenKey]: { ...prevState[tokenKey], lendValue: value }
     }));
   };
 
-  const handleChangeBorrow = (tokenKey:string, value:string) => {
+  const handleChangeBorrow = (tokenKey: string, value: string) => {
     setTokenValues(prevState => ({
       ...prevState,
       [tokenKey]: { ...prevState[tokenKey], borrowValue: value }
@@ -130,47 +130,51 @@ export function BorrowLendTokenUI() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <ul className="space-y-6">
-        {tokens.map((token) => (
-          <li
-            key={token.tokenSymbol}
-            className="flex flex-col md:flex-row items-center justify-between p-6 bg-gray-100 rounded-lg shadow-md space-y-4 md:space-y-0 md:space-x-4"
-          >
-            <span className="text-lg font-semibold">{token.tokenName}</span>
+    <>
+      {currentAcc! && <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <ul className="space-y-6">
+          {tokens.map((token) => (
+            <li
+              key={token.tokenSymbol}
+              className="flex flex-col md:flex-row items-center justify-between p-6 bg-gray-100 rounded-lg shadow-md space-y-4 md:space-y-0 md:space-x-4"
+            >
+              <span className="text-lg font-semibold">{token.tokenName}</span>
 
-            <div className="flex flex-col md:flex-row items-center w-full md:w-auto space-y-4 md:space-y-0 md:space-x-4">
-              <input
-                type="text"
-                value={tokenValues[String(token.tokenKey)].lendValue}
-                onChange={(e) => handleChangeLend(String(token.tokenKey), e.target.value)}
-                placeholder="Enter Lend amount"
-                className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center w-full md:w-1/3"
-              />
-              <button
-                onClick={() => handleLend(token.tokenKey)}
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 w-full md:w-auto"
-              >
-                Lend
-              </button>
-              <input
-                type="text"
-                value={tokenValues[String(token.tokenKey)].borrowValue}
-                onChange={(e) => handleChangeBorrow(String(token.tokenKey), e.target.value)}
-                placeholder="Enter Borrow amount"
-                className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center w-full md:w-1/3"
-              />
-              <button
-                onClick={() => handleBorrow(token.tokenKey)}
-                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 w-full md:w-auto"
-              >
-                Borrow
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+              <div className="flex flex-col md:flex-row items-center w-full md:w-auto space-y-4 md:space-y-0 md:space-x-4">
+                <input
+                  type="text"
+                  value={tokenValues[String(token.tokenKey)].lendValue}
+                  onChange={(e) => handleChangeLend(String(token.tokenKey), e.target.value)}
+                  placeholder="Enter Lend amount"
+                  className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center w-full md:w-1/3"
+                />
+                <button
+                  onClick={() => handleLend(token.tokenKey)}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 w-full md:w-auto"
+                >
+                  Lend
+                </button>
+                <input
+                  type="text"
+                  value={tokenValues[String(token.tokenKey)].borrowValue}
+                  onChange={(e) => handleChangeBorrow(String(token.tokenKey), e.target.value)}
+                  placeholder="Enter Borrow amount"
+                  className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center w-full md:w-1/3"
+                />
+                <button
+                  onClick={() => handleBorrow(token.tokenKey)}
+                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 w-full md:w-auto"
+                >
+                  Borrow
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>}
+    </>
+
+
   );
 }
 
