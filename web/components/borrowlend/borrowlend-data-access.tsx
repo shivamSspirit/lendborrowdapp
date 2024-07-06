@@ -1,17 +1,14 @@
 'use client';
 
 import { getBorrowLendProgram, getBorrowLendProgramId } from '@lendborrow/anchor';
-import { Program } from '@coral-xyz/anchor';
 import { useConnection } from '@solana/wallet-adapter-react';
-import { Cluster, Keypair, PublicKey } from '@solana/web3.js';
+import { Cluster, PublicKey } from '@solana/web3.js';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import toast from 'react-hot-toast';
 import { useCluster } from '../cluster/cluster-data-access';
 import { useAnchorProvider } from '../solana/solana-provider';
 import { useTransactionToast } from '../ui/ui-layout';
-import { tokenAmount } from '@metaplex-foundation/umi';
-
 import { BN } from '@coral-xyz/anchor';
 
 export function useBorrowLendProgram() {
@@ -29,8 +26,6 @@ export function useBorrowLendProgram() {
     queryKey: ['user-account', 'all', { cluster }],
     queryFn: () => program.account.userAcc.all(),
   });
-
-  console.log("accounts", accounts)
 
   const getProgramAccount = useQuery({
     queryKey: ['get-program-account', { cluster }],
@@ -77,8 +72,6 @@ export function useBorrowLendProgramAccount({ account }: { account: PublicKey })
 
       const userPDa = PublicKey.findProgramAddressSync([Buffer.from("USER"), user.toBuffer()], program.programId);
 
-      // [Buffer.from(userName), user.toBuffer()],
-
       return program.methods.lendMain({ token: tokenKey, amount: new BN(tokenAmount) }).accounts({
         signer: user
       }).rpc();
@@ -102,8 +95,6 @@ export function useBorrowLendProgramAccount({ account }: { account: PublicKey })
 
       const userPDa = PublicKey.findProgramAddressSync([Buffer.from("USER"), user.toBuffer()], program.programId);
 
-      // [Buffer.from(userName), user.toBuffer()],
-
       return program.methods.borrowMain({ token: tokenKey, amount: new BN(tokenAmount) }).accounts({
         signer: user
       }).rpc();
@@ -119,53 +110,10 @@ export function useBorrowLendProgramAccount({ account }: { account: PublicKey })
     }
   })
 
-  // const closeMutation = useMutation({
-  //   mutationKey: ['borrow_lend', 'close', { cluster, account }],
-  //   mutationFn: () =>
-  //     program.methods.close().accounts({ counter: account }).rpc(),
-  //   onSuccess: (tx) => {
-  //     transactionToast(tx);
-  //     return accounts.refetch();
-  //   },
-  // });
-
-  // const decrementMutation = useMutation({
-  //   mutationKey: ['counter', 'decrement', { cluster, account }],
-  //   mutationFn: () =>
-  //     program.methods.decrement().accounts({ counter: account }).rpc(),
-  //   onSuccess: (tx) => {
-  //     transactionToast(tx);
-  //     return accountQuery.refetch();
-  //   },
-  // });
-
-  // const incrementMutation = useMutation({
-  //   mutationKey: ['counter', 'increment', { cluster, account }],
-  //   mutationFn: () =>
-  //     program.methods.increment().accounts({ counter: account }).rpc(),
-  //   onSuccess: (tx) => {
-  //     transactionToast(tx);
-  //     return accountQuery.refetch();
-  //   },
-  // });
-
-  // const setMutation = useMutation({
-  //   mutationKey: ['counter', 'set', { cluster, account }],
-  //   mutationFn: (value: number) =>
-  //     program.methods.set(value).accounts({ counter: account }).rpc(),
-  //   onSuccess: (tx) => {
-  //     transactionToast(tx);
-  //     return accountQuery.refetch();
-  //   },
-  // });
 
   return {
     accountQuery,
     LendTokens,
-    BorrowTokens,
-    // closeMutation,
-    // decrementMutation,
-    // incrementMutation,
-    // setMutation,
+    BorrowTokens
   };
 }

@@ -1,11 +1,8 @@
 'use client';
 
 import {
-  useBorrowLendProgram,
   useBorrowLendProgramAccount,
 } from './borrowlend-data-access';
-
-import { useWallet } from '@solana/wallet-adapter-react';
 
 const cellStyle = {
   padding: '10px',

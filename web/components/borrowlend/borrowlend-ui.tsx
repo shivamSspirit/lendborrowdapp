@@ -12,7 +12,7 @@ import { PublicKey } from '@solana/web3.js';
 export function BorrowLendCreate() {
   const { initializeUserPort } = useBorrowLendProgram();
   const { publicKey } = useWallet();
-  const { accounts, getProgramAccount } = useBorrowLendProgram();
+  const { accounts } = useBorrowLendProgram();
 
 
   const currentAcc = accounts.data?.find(account => account.account.authority.toString() === publicKey!.toString());
